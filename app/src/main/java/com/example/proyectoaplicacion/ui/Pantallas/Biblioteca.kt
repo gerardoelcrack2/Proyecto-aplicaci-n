@@ -2,6 +2,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -19,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.proyectoaplicacion.BottomBarItem
 import com.example.proyectoaplicacion.R
 
 class BibliotecaActivity : ComponentActivity() {
@@ -33,74 +37,141 @@ class BibliotecaActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BibliotecaScreen() {
+fun BibliotecaScreen(/*navController: NavController*/) {
     val tabs = listOf("Home", "Library", "Search") // Cambia los nombres según necesites
     var selectedTabIndex = remember { 0 } // Inicialmente, selecciona el primer tab
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Toolbar
-        TopAppBar(
-            title = { Text("Biblioteca", color = Color.White) },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary // Color de fondo de la barra
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = "Biblioteca",
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Spacer(
+                                modifier = Modifier
+                                    .width(12.dp)
+                                    .clickable { /* Acción al hacer clic */ })
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_settings_24),
+                                contentDescription = "Settings",
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .align(Alignment.CenterVertically)
+                            )
+                        }
+                    }
+                }
             )
-        )
-
-        // TabRow para la navegación superior
-        TabRow(selectedTabIndex = selectedTabIndex) {
-            tabs.forEachIndexed { index, tab ->
-                Tab(
-                    selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index }, // Cambia el tab seleccionado
-                    text = { Text(tab, color = Color.White) }
-                )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.height(64.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    BottomBarItem(
+                        iconRes = R.drawable.baseline_home_filled_24,
+                        label = "Inicio",
+                        modifier = Modifier.weight(1f)
+                    )
+                    BottomBarItem(
+                        iconRes = R.drawable.outline_search_24,
+                        label = "Buscar",
+                        modifier = Modifier.weight(1f)
+                    )
+                    BottomBarItem(
+                        iconRes = R.drawable.baseline_library_music_24,
+                        label = "Biblioteca",
+                        modifier = Modifier.weight(1f)
+                    )
+                    BottomBarItem(
+                        iconRes = R.drawable.baseline_cloud_24,
+                        label = "Suscripción",
+                        modifier = Modifier.weight(1f)
+                    )
+                    BottomBarItem(
+                        iconRes = R.drawable.baseline_account_circle_24,
+                        label = "Perfil",
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
-
-        // Contenido de la pantalla
-        Column(modifier = Modifier.padding(16.dp)) {
-            // Sección de la biblioteca
-            SectionItem(title = "Listas") { /* Navegar a Listas */ }
-            SectionItem(title = "Álbumes") { /* Navegar a Álbumes */ }
-            SectionItem(title = "Siguiendo") { /* Navegar a Siguiendo */ }
-            SectionItem(title = "Emisoras") { /* Navegar a Emisoras */ }
-            SectionItem(title = "Tus estadísticas") { /* Navegar a Estadísticas */ }
-            SectionItem(title = "Tus subidas") { /* Navegar a Subidas */ }
-        }
-
-        // Sección "Escuchado recientemente"
-        Text(
-            text = "Escuchado recientemente",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(16.dp)
-        )
-
-        // LazyRow para mostrar las canciones recientes
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(16.dp)
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(1.dp),
         ) {
-            items(getRecentlyPlayedSongs()) { song ->
-                RecentlyPlayedItem(song)
+
+            // Contenido de la pantalla
+            Column(modifier = Modifier.padding(16.dp)) {
+                // Sección de la biblioteca
+                SectionItem(title = "Listas") { /* Navegar a Listas */ }
+                SectionItem(title = "Álbumes") { /* Navegar a Álbumes */ }
+                SectionItem(title = "Siguiendo") { /* Navegar a Siguiendo */ }
+                SectionItem(title = "Emisoras") { /* Navegar a Emisoras */ }
+                SectionItem(title = "Tus estadísticas") { /* Navegar a Estadísticas */ }
+                SectionItem(title = "Tus subidas") { /* Navegar a Subidas */ }
             }
-        }
 
-        // Sección de historial
-        Text(
-            text = "Historial de reproducción",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(16.dp)
-        )
+            // Sección "Escuchado recientemente"
+            Text(
+                text = "Escuchado recientemente",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(18.dp)
+            )
 
-        // LazyColumn para mostrar el historial de reproducción
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            items(getPlayHistory()) { song ->
-                PlayHistoryItem(song)
+            // LazyRow para mostrar las canciones recientes
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(getRecentlyPlayedSongs()) { song ->
+                    RecentlyPlayedItem(song)
+                }
+            }
+
+            // Sección de historial
+            Text(
+                text = "Historial de reproducción",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(18.dp)
+            )
+
+            // LazyColumn para mostrar el historial de reproducción
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(getPlayHistory()) { song ->
+                    PlayHistoryItem(song)
+                }
             }
         }
     }
@@ -117,7 +188,7 @@ fun SectionItem(title: String, onClick: () -> Unit) {
     ) {
         Text(text = title, style = MaterialTheme.typography.titleMedium)
         Image(
-            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24), // Reemplaza con tu icono de flecha
+            painter = painterResource(id = R.drawable.baseline_navigate_next_24), // Reemplaza con tu icono de flecha
             contentDescription = "Ir a $title",
             modifier = Modifier.size(24.dp), colorFilter = ColorFilter.tint(Color.Black)
         )
