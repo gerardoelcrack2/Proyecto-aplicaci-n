@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -135,90 +137,127 @@ fun Suscripcion(/*navController: NavController*/){
             }
         }
     ) { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-            .background(MaterialTheme.colorScheme.background),
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
-            Card(modifier = Modifier
-                //.background(Color.LightGray)
-                .fillMaxWidth()
-                .padding(5.dp),
+        ) {
+            // Primer Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-            ){
-                Text(text = "¿Quieres seguir escuchando esta y muchas otras canciones más? ¡Suscribete a nuestro servicio premium!",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    painter = painterResource(id = R.drawable.marshmello_icon),
-                    contentDescription = "Android Logo",
-                    contentScale = ContentScale.Crop
-                )
-                Text(
-                    text = "Descubre una nueva dimensión en el streaming de música con el servicio de streaming más inovador del mercado.",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-                Text(
-                    text = "¿Por qué elegir nuestro servicio?",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-                Text(
-                    text = "- Biblioteca musical extensa\n" +
-                            "- Funciones únicas: Modo Slowed, Modo Reversa, Velocidad x2\n" +
-                            "- Perfiles de artistas completos\n" +
-                            "- Interfaz intuitiva",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
+            ) {
+                Column {
+                    Text(
+                        text = "¿Quieres seguir escuchando esta y muchas otras canciones más? ¡Suscríbete a nuestro servicio premium!",
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        painter = painterResource(id = R.drawable.marshmello_icon),
+                        contentDescription = "Android Logo",
+                        contentScale = ContentScale.Crop
+                    )
+                    Text(
+                        text = "Descubre una nueva dimensión en el streaming de música con el servicio de streaming más innovador del mercado.",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
+            }
+
+            // Segundo Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Column {
+                    Text(
+                        text = "¿Por qué elegir nuestro servicio?",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                    Text(
+                        text = "- Biblioteca musical extensa\n" +
+                                "- Funciones únicas: Modo Slowed, Modo Reversa, Velocidad x2\n" +
+                                "- Perfiles de artistas completos\n" +
+                                "- Interfaz intuitiva",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
+            }
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ) {
                 Text(
                     text = "Planes de suscripción accesibles",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(10.dp)
                 )
                 Text(
                     text = "Disfruta de toda nuestra plataforma desde tan solo $00.00 pesos. ¡Sin publicidad y con acceso completo a todas las funciones premium!",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 14.sp,
+                    fontSize = 18.sp,
                     modifier = Modifier.padding(10.dp)
                 )
                 Text(
                     text = "¿Listo para transformar tu forma de escuchar música?",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(10.dp)
                 )
+            }
+            // Card de botones
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    Button(onClick = {}) {
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.padding(top = 12.dp)
+                    ) {
                         Text("Suscribirse ya por solo $00.00")
                     }
-                    TextButton(onClick = {}) {
-                        Text("Ahorra dinero con el plan familiar o de estudiante")
+                    TextButton(
+                        onClick = {},
+                        //modifier = Modifier.padding(top = 2.dp)
+                    ) {
+                        Text(
+                            text = "Ahorra dinero con el plan familiar o de estudiante",
+                            fontSize = 13.sp)
                     }
-
                 }
             }
         }
