@@ -7,10 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.proyectoaplicacion.ui.Pantallas.Reproductor // Asegúrate de que esta línea sea correcta
 import com.example.proyectoaplicacion.ui.theme.ProyectoAplicacionTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,29 +19,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProyectoAplicacionTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    // Llamada a la pantalla del Reproductor
+                    ReproductorScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
-//Prueba
 
+// Función que contiene el diseño del reproductor
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProyectoAplicacionTheme {
-        Greeting("Android")
-    }
+fun ReproductorScreen(modifier: Modifier = Modifier) {
+    Reproductor() // Llama a la función Reproductor desde el archivo Reproductor.kt
 }
