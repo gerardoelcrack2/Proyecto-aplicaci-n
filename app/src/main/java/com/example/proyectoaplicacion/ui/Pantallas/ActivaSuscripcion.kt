@@ -46,6 +46,8 @@ import com.example.proyectoaplicacion.R
 @Preview(showBackground = true)
 @Composable
 fun Activacion(/*navController: NavController*/) {
+    var susSeleccionada by remember { mutableStateOf("Basica") }
+    var susTotal by remember { mutableStateOf("$00.00") }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -146,7 +148,13 @@ fun Activacion(/*navController: NavController*/) {
                 LazyRow {
                     items(listOf("Basica", "Estudiante", "Familiar")) { item ->
                         OutlinedButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { susSeleccionada = item
+                                susTotal = when (item) {
+                                    "Basica" -> "$00.00"
+                                    "Estudiante" -> "$0.00"
+                                    "Familiar" -> "$000.00"
+                                    else -> "$00.00" }
+                                      },
                             modifier = Modifier
                                 .padding(9.dp, 2.dp)
                         ) {
@@ -249,7 +257,7 @@ fun Activacion(/*navController: NavController*/) {
                             modifier = Modifier.padding(10.dp)
                         )
                         Text(
-                            text = "$00.00/mes",
+                            text = "${susTotal}/mes",
                             color = MaterialTheme.colorScheme.primary,
                             fontSize = 28.sp,
                             fontWeight = FontWeight.Bold,
