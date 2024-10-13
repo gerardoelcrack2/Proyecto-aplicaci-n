@@ -1,7 +1,5 @@
 package com.example.proyectoaplicacion.ui.Pantallas
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,21 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,22 +34,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.proyectoaplicacion.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun Suscripcion(/*navController: NavController*/){
+fun Suscripcion(navController: NavController){
     Scaffold(
         topBar = {
             TopAppBar(
@@ -111,27 +100,32 @@ fun Suscripcion(/*navController: NavController*/){
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_home_filled_24,
                         label = "Inicio",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("main") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de buscar*/}
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de biblioteca*/}
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,
                         label = "Suscripción",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("suscripcion") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de perfil*/}
                     )
                 }
             }
@@ -245,13 +239,13 @@ fun Suscripcion(/*navController: NavController*/){
                         .fillMaxSize()
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = { navController.navigate("activacion") },
                         modifier = Modifier.padding(top = 12.dp)
                     ) {
                         Text("Suscribirse ya por solo $00.00")
                     }
                     TextButton(
-                        onClick = {},
+                        onClick = { navController.navigate("activacion") },
                         //modifier = Modifier.padding(top = 2.dp)
                     ) {
                         Text(

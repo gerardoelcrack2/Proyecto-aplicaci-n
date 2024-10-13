@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -37,15 +38,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.proyectoaplicacion.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun Activacion(/*navController: NavController*/) {
+fun Activacion(navController: NavController) {
     var susSeleccionada by remember { mutableStateOf("Basica") }
     var susTotal by remember { mutableStateOf("$00.00") }
     Scaffold(
@@ -101,27 +103,32 @@ fun Activacion(/*navController: NavController*/) {
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_home_filled_24,
                         label = "Inicio",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("main") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { /*Poner pantalla de buscar*/}
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de biblioteca*/}
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,
                         label = "Suscripción",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("suscripcion") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de perfil*/}
                     )
                 }
             }
@@ -193,7 +200,10 @@ fun Activacion(/*navController: NavController*/) {
                 )
                 OutlinedTextField(
                     value = numTarjeta,
-                    onValueChange = { numTarjeta = it },
+                    onValueChange = { newValue ->
+                        val filteredValue = newValue.filter { it.isDigit() }
+                        numTarjeta = filteredValue.take(16)
+                    },
                     label = {
                         Text(
                             "Numero de tarjeta",
@@ -204,7 +214,8 @@ fun Activacion(/*navController: NavController*/) {
                     colors = TextFieldDefaults.colors(
                         focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                         unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                    )
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -212,7 +223,9 @@ fun Activacion(/*navController: NavController*/) {
                 ) {
                     OutlinedTextField(
                         value = fechaExp,
-                        onValueChange = { fechaExp = it },
+                        onValueChange = { newValue ->
+                            val filteredValue = newValue.filter { it.isDigit() }
+                            fechaExp = filteredValue.take(4) },
                         label = {
                             Text(
                                 "N de expiración (MM/AA)",
@@ -223,12 +236,15 @@ fun Activacion(/*navController: NavController*/) {
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                             unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
 
                     OutlinedTextField(
                         value = cvv,
-                        onValueChange = { cvv = it },
+                        onValueChange = { newValue ->
+                            val filteredValue = newValue.filter { it.isDigit() }
+                            cvv = filteredValue.take(3) },
                         label = {
                             Text(
                                 "CVV",
@@ -239,7 +255,8 @@ fun Activacion(/*navController: NavController*/) {
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                             unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
                 Card(
