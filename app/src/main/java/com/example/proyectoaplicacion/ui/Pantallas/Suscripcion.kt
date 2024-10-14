@@ -107,7 +107,7 @@ fun Suscripcion(navController: NavController){
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de buscar*/}
+                        onClick = { navController.navigate("buscar") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
@@ -125,7 +125,7 @@ fun Suscripcion(navController: NavController){
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de perfil*/}
+                        onClick = { navController.navigate("perfil") }
                     )
                 }
             }
