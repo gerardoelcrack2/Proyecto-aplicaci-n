@@ -40,14 +40,44 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.proyectoaplicacion.ui.Pantallas.Activacion
+import com.example.proyectoaplicacion.ui.Pantallas.Suscripcion
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppTheme { // Usa el tema que cambia con el modo oscuro
-                ScaffoldExample()
+            AppTheme {
+                val navController = rememberNavController()
+                SetupNavGraph(navController)
             }
+        }
+    }
+}
+
+@Composable
+fun MainActivity(navController: NavHostController) {
+    ScaffoldExample(navController)
+}
+
+@Composable
+fun SetupNavGraph(navController: NavHostController) {
+    NavHost(
+        navController = navController,
+        startDestination = "main"
+    ) {
+        composable("main") {
+            MainActivity(navController)
+        }
+        composable("suscripcion") {
+            Suscripcion(navController)
+        }
+        composable("activacion") {
+            Activacion(navController)
         }
     }
 }
@@ -81,9 +111,9 @@ fun AppTheme(content: @Composable () -> Unit) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+//@Preview
 @Composable
-fun ScaffoldExample() {
+fun ScaffoldExample(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -137,27 +167,32 @@ fun ScaffoldExample() {
                     BottomBarItem(
                         iconRes = R.drawable.baseline_home_filled_24,
                         label = "Inicio",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("main") }
                     )
                     BottomBarItem(
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { /*Poner pantalla de buscar*/}
                     )
                     BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de biblioteca*/}
                     )
                     BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,
                         label = "Suscripción",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate("suscripcion") }
                     )
                     BottomBarItem(
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {/*Poner pantalla de perfil*/}
                     )
                 }
             }
@@ -253,10 +288,10 @@ fun ScaffoldExample() {
 }
 
 @Composable
-fun BottomBarItem(iconRes: Int, label: String, modifier: Modifier = Modifier) {
+fun BottomBarItem(iconRes: Int, label: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Column(
         modifier = modifier
-            .clickable { /* Acción al hacer clic */ },
+            .clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally, // Alinea ícono y texto al centro
         verticalArrangement = Arrangement.Center
     ) {
