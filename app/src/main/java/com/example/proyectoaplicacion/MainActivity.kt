@@ -45,7 +45,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectoaplicacion.ui.Pantallas.Activacion
+import com.example.proyectoaplicacion.ui.Pantallas.Albumes
 import com.example.proyectoaplicacion.ui.Pantallas.BibliotecaScreen
+import com.example.proyectoaplicacion.ui.Pantallas.Buscar
+import com.example.proyectoaplicacion.ui.Pantallas.Emisoras
+import com.example.proyectoaplicacion.ui.Pantallas.Estadisticas
+import com.example.proyectoaplicacion.ui.Pantallas.Listas
+import com.example.proyectoaplicacion.ui.Pantallas.Perfil
+import com.example.proyectoaplicacion.ui.Pantallas.Siguiendo
+import com.example.proyectoaplicacion.ui.Pantallas.Subidas
 import com.example.proyectoaplicacion.ui.Pantallas.Suscripcion
 
 class MainActivity : ComponentActivity() {
@@ -82,6 +90,30 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable("biblioteca") {
             BibliotecaScreen(navController)
+        }
+        composable("buscar") {
+            Buscar(navController)
+        }
+        composable("perfil") {
+            Perfil(navController)
+        }
+        composable("emisoras") {
+            Emisoras(navController)
+        }
+        composable("siguiendo") {
+            Siguiendo(navController)
+        }
+        composable("estadisticas") {
+            Estadisticas(navController)
+        }
+        composable("listas") {
+            Listas(navController)
+        }
+        composable("albumes") {
+            Albumes(navController)
+        }
+        composable("subidas") {
+            Subidas(navController)
         }
     }
 }
@@ -178,7 +210,7 @@ fun ScaffoldExample(navController: NavHostController) {
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
                         modifier = Modifier.weight(1f),
-                        onClick = { /*Poner pantalla de buscar*/}
+                        onClick = { navController.navigate("buscar") }
                     )
                     BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
@@ -196,7 +228,7 @@ fun ScaffoldExample(navController: NavHostController) {
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de perfil*/}
+                        onClick = { navController.navigate("perfil") }
                     )
                 }
             }

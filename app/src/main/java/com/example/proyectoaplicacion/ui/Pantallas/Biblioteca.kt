@@ -111,7 +111,7 @@ fun BibliotecaScreen(navController: NavController) {
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de perfil*/}
+                        onClick = { navController.navigate("perfil") }
                     )
                 }
             }
@@ -127,12 +127,12 @@ fun BibliotecaScreen(navController: NavController) {
             // Contenido de la pantalla
             Column(modifier = Modifier.padding(16.dp)) {
                 // Sección de la biblioteca
-                SectionItem(title = "Listas") { /* Navegar a Listas */ }
-                SectionItem(title = "Álbumes") { /* Navegar a Álbumes */ }
-                SectionItem(title = "Siguiendo") { /* Navegar a Siguiendo */ }
-                SectionItem(title = "Emisoras") { /* Navegar a Emisoras */ }
-                SectionItem(title = "Tus estadísticas") { /* Navegar a Estadísticas */ }
-                SectionItem(title = "Tus subidas") { /* Navegar a Subidas */ }
+                SectionItem(title = "Listas") { navController.navigate("listas") }
+                SectionItem(title = "Álbumes") { navController.navigate("albumes") }
+                SectionItem(title = "Siguiendo") { navController.navigate("siguiendo") }
+                SectionItem(title = "Emisoras") { navController.navigate("emisoras") }
+                SectionItem(title = "Tus estadísticas") { navController.navigate("estadisticas") }
+                SectionItem(title = "Tus subidas") { navController.navigate("subidas") }
             }
 
             // Sección "Escuchado recientemente"
