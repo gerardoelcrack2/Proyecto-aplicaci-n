@@ -45,6 +45,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectoaplicacion.ui.Pantallas.Activacion
+import com.example.proyectoaplicacion.ui.Pantallas.BibliotecaScreen
 import com.example.proyectoaplicacion.ui.Pantallas.Suscripcion
 
 class MainActivity : ComponentActivity() {
@@ -78,6 +79,9 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable("activacion") {
             Activacion(navController)
+        }
+        composable("biblioteca") {
+            BibliotecaScreen(navController)
         }
     }
 }
@@ -180,7 +184,7 @@ fun ScaffoldExample(navController: NavHostController) {
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de biblioteca*/}
+                        onClick = { navController.navigate("biblioteca") }
                     )
                     BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,

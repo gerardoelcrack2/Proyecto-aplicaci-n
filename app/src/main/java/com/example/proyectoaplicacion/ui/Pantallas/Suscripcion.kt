@@ -113,7 +113,7 @@ fun Suscripcion(navController: NavController){
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
                         modifier = Modifier.weight(1f),
-                        onClick = {/*Poner pantalla de biblioteca*/}
+                        onClick = { navController.navigate("biblioteca") }
                     )
                     com.example.proyectoaplicacion.BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,
