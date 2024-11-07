@@ -1,5 +1,6 @@
 package com.example.proyectoaplicacion
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,17 +28,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -120,24 +120,17 @@ fun SetupNavGraph(navController: NavHostController) {
 
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {
-    val isDarkTheme = isSystemInDarkTheme() // Detecta si el modo oscuro está activado
+    val darkTheme = isSystemInDarkTheme() // Detecta si el modo oscuro está activado
+    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S // Comprueba si se puede usar color dinámico
 
-    val colorScheme = if (isDarkTheme) {
-        darkColorScheme(
-            primary = Color(0xFFBB86FC),
-            primaryContainer = Color(0xFF121212),
-            secondary = Color.Gray,
-            background = Color(0xFF1E1F22),
-            onPrimary = Color.White
-        )
-    } else {
-        lightColorScheme(
-            primary = MaterialTheme.colorScheme.primary,
-            primaryContainer = MaterialTheme.colorScheme.primaryContainer,
-            secondary = MaterialTheme.colorScheme.secondary,
-            background = MaterialTheme.colorScheme.background,
-            onPrimary = Color.Black
-        )
+    val colorScheme = when {
+        dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
+        dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
+        else -> if (darkTheme) {
+            MaterialTheme.colorScheme // Usa los colores predeterminados de MaterialTheme para modo oscuro
+        } else {
+            MaterialTheme.colorScheme // Usa los colores predeterminados de MaterialTheme para modo claro
+        }
     }
 
     MaterialTheme(
@@ -155,7 +148,7 @@ fun ScaffoldExample(navController: NavHostController) {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ),
                 title = {
                     Row(
@@ -166,22 +159,22 @@ fun ScaffoldExample(navController: NavHostController) {
                     ) {
                         Text(
                             text = "Música",
-                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Spacer(
+                            /*Spacer(
                                 modifier = Modifier
                                     .width(12.dp)
-                                    .clickable { /* Acción al hacer clic */ })
+                                    .clickable { /* Acción al hacer clic */ })*/
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_settings_24),
                                 contentDescription = "Settings",
-                                tint = MaterialTheme.colorScheme.primary,
+                                //tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier
                                     .size(24.dp)
                                     .align(Alignment.CenterVertically)
+                                    .clickable { /* Acción al hacer clic */ }
                             )
                         }
                     }
@@ -190,7 +183,7 @@ fun ScaffoldExample(navController: NavHostController) {
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.height(64.dp)
             ) {
@@ -237,7 +230,7 @@ fun ScaffoldExample(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.surface),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             LazyRow(
