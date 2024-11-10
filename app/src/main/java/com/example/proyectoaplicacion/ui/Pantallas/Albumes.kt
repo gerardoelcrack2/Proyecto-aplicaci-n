@@ -79,7 +79,7 @@ fun Albumes(navController: NavController) {
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.height(64.dp)
             ) {

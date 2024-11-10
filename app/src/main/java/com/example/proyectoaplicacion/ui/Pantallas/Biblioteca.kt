@@ -73,7 +73,7 @@ fun BibliotecaScreen(navController: NavController) {
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.height(64.dp)
             ) {
@@ -83,31 +83,31 @@ fun BibliotecaScreen(navController: NavController) {
                         .padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    com.example.proyectoaplicacion.BottomBarItem(
+                    BottomBarItem(
                         iconRes = R.drawable.baseline_home_filled_24,
                         label = "Inicio",
                         modifier = Modifier.weight(1f),
                         onClick = { navController.navigate("main") }
                     )
-                    com.example.proyectoaplicacion.BottomBarItem(
+                    BottomBarItem(
                         iconRes = R.drawable.outline_search_24,
                         label = "Buscar",
                         modifier = Modifier.weight(1f),
-                        onClick = { navController.navigate("buscar")}
+                        onClick = { navController.navigate("buscar") }
                     )
-                    com.example.proyectoaplicacion.BottomBarItem(
+                    BottomBarItem(
                         iconRes = R.drawable.baseline_library_music_24,
                         label = "Biblioteca",
                         modifier = Modifier.weight(1f),
                         onClick = { navController.navigate("biblioteca") }
                     )
-                    com.example.proyectoaplicacion.BottomBarItem(
+                    BottomBarItem(
                         iconRes = R.drawable.baseline_cloud_24,
                         label = "Suscripción",
                         modifier = Modifier.weight(1f),
                         onClick = { navController.navigate("suscripcion") }
                     )
-                    com.example.proyectoaplicacion.BottomBarItem(
+                    BottomBarItem(
                         iconRes = R.drawable.baseline_account_circle_24,
                         label = "Perfil",
                         modifier = Modifier.weight(1f),
@@ -117,58 +117,59 @@ fun BibliotecaScreen(navController: NavController) {
             }
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.spacedBy(1.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
-            // Contenido de la pantalla
-            Column(modifier = Modifier.padding(16.dp)) {
-                // Sección de la biblioteca
-                SectionItem(title = "Listas") { navController.navigate("listas") }
-                SectionItem(title = "Álbumes") { navController.navigate("albumes") }
-                SectionItem(title = "Siguiendo") { navController.navigate("siguiendo") }
-                SectionItem(title = "Emisoras") { navController.navigate("emisoras") }
-                SectionItem(title = "Tus estadísticas") { navController.navigate("estadisticas") }
-                SectionItem(title = "Tus subidas") { navController.navigate("subidas") }
-            }
-
-            // Sección "Escuchado recientemente"
-            Text(
-                text = "Escuchado recientemente",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(18.dp)
-            )
-
-            // LazyRow para mostrar las canciones recientes
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(getRecentlyPlayedSongs()) { song ->
-                    RecentlyPlayedItem(song)
+            // Sección de la biblioteca
+            item {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    SectionItem(title = "Listas") { navController.navigate("listas") }
+                    SectionItem(title = "Álbumes") { navController.navigate("albumes") }
+                    SectionItem(title = "Siguiendo") { navController.navigate("siguiendo") }
+                    SectionItem(title = "Emisoras") { navController.navigate("emisoras") }
+                    SectionItem(title = "Tus estadísticas") { navController.navigate("estadisticas") }
+                    SectionItem(title = "Tus subidas") { navController.navigate("subidas") }
                 }
             }
 
-            // Sección de historial
-            Text(
-                text = "Historial de reproducción",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(18.dp)
-            )
+            // Título de "Escuchado recientemente"
+            item {
+                Text(
+                    text = "Escuchado recientemente",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(18.dp)
+                )
+            }
 
-            // LazyColumn para mostrar el historial de reproducción
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(getPlayHistory()) { song ->
-                    PlayHistoryItem(song)
+            // LazyRow dentro de un item del LazyColumn
+            item {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(16.dp)
+                ) {
+                    items(getRecentlyPlayedSongs()) { song ->
+                        RecentlyPlayedItem(song)
+                    }
                 }
+            }
+
+            // Título del historial
+            item {
+                Text(
+                    text = "Historial de reproducción",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(18.dp)
+                )
+            }
+
+            // Items del historial
+            items(getPlayHistory()) { song ->
+                PlayHistoryItem(song)
             }
         }
     }
