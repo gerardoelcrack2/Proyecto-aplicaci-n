@@ -380,14 +380,17 @@ val mediaPlayer = MediaPlayer()
 // Variable global para controlar la canción actual
 var currentFile: File? = null
 
+var isPaused = false
+
 fun playAudio(file: File) {
     try {
         // Si la canción actual es diferente a la que se está pidiendo, cambia la canción
         if (currentFile != file) {
-            // Si hay una canción en reproducción, deténla
-            if (mediaPlayer.isPlaying) {
+            // Si hay una canción en reproducción o pausada, deténla y resetea el MediaPlayer
+            if (mediaPlayer.isPlaying || isPaused) {
                 mediaPlayer.stop()
-                mediaPlayer.reset() // Resetea el MediaPlayer
+                mediaPlayer.reset()
+                isPaused = false
             }
 
             // Prepara el MediaPlayer con el nuevo archivo
@@ -398,13 +401,9 @@ fun playAudio(file: File) {
 
             // Configura el listener para cuando la canción termine
             mediaPlayer.setOnCompletionListener {
-                // Reinicia el reproductor para reproducir otra canción
-                mediaPlayer.stop()
-                mediaPlayer.reset()
-                /*
+                // Aquí puedes reiniciar la canción o pasar a la siguiente
                 mediaPlayer.seekTo(0) // Reinicia la canción
                 mediaPlayer.start() // Reproduce la canción desde el inicio
-                */
                 // O si quieres pasar a la siguiente canción, puedes llamar a otro método
                 // playNextAudio()
             }
@@ -412,8 +411,10 @@ fun playAudio(file: File) {
             // Si la misma canción se está reproduciendo, alterna entre pausar y reanudar
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause() // Pausa la canción
+                isPaused = true
             } else {
                 mediaPlayer.start() // Reanuda la canción
+                isPaused = false
             }
         }
     } catch (e: IOException) {
