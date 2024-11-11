@@ -1,19 +1,31 @@
 package com.example.proyectoaplicacion.ui.Pantallas
 
+import android.content.ContentUris
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,19 +38,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.proyectoaplicacion.R
+import com.example.proyectoaplicacion.getAudioFiles
+import com.example.proyectoaplicacion.playAudio
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
 @Composable
 fun Albumes(navController: NavController) {
-    var susSeleccionada by remember { mutableStateOf("Basica") }
-    var susTotal by remember { mutableStateOf("$00.00") }
+    val context = LocalContext.current
+    val audioFiles = remember { getAudioFiles(context) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -46,6 +65,15 @@ fun Albumes(navController: NavController) {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Regresar",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 title = {
                     Row(
                         modifier = Modifier
@@ -126,15 +154,63 @@ fun Albumes(navController: NavController) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Albumes",
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 52.sp,
-                fontWeight = FontWeight.Bold
-            )
+            // Lista de archivos de audio
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(audioFiles) { audioFile ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        val albumArtUri = ContentUris.withAppendedId(
+                            MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                            audioFile.albumId
+                        )
+
+                        val albumArtPainter = rememberAsyncImagePainter(
+                            model = if (albumArtUri == Uri.EMPTY) {
+                                R.drawable.note
+                            } else {
+                                albumArtUri
+                            }
+                        )
+
+                        Image(
+                            painter = albumArtPainter,
+                            contentDescription = "Album Art",
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clip(RoundedCornerShape(2.dp))
+                        )
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = audioFile.name.substringBeforeLast("."),
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        IconButton(onClick = { playAudio(audioFile.file) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_play_arrow_24),
+                                contentDescription = "Play"
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
