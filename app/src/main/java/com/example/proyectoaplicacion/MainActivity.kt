@@ -401,11 +401,9 @@ fun playAudio(file: File) {
 
             // Configura el listener para cuando la canción termine
             mediaPlayer.setOnCompletionListener {
-                // Aquí puedes reiniciar la canción o pasar a la siguiente
-                mediaPlayer.seekTo(0) // Reinicia la canción
-                mediaPlayer.start() // Reproduce la canción desde el inicio
-                // O si quieres pasar a la siguiente canción, puedes llamar a otro método
-                // playNextAudio()
+                mediaPlayer.reset() // Resetea el MediaPlayer para la siguiente canción
+                currentFile = null // Resetea la canción actual
+                isPaused = false // Resetea el estado de pausa
             }
         } else {
             // Si la misma canción se está reproduciendo, alterna entre pausar y reanudar
