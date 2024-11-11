@@ -3,17 +3,29 @@ package com.example.proyectoaplicacion.ui.Pantallas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+//import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
+//import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,6 +56,15 @@ fun Listas(navController: NavController) {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Regresar",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 title = {
                     Row(
                         modifier = Modifier
@@ -61,7 +82,7 @@ fun Listas(navController: NavController) {
                             Spacer(
                                 modifier = Modifier
                                     .width(12.dp)
-                                    .clickable { /* Acción al hacer clic */ })
+                                    .clickable { navController.navigate("configuracion") })
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_settings_24),
                                 contentDescription = "Emisoras",
@@ -77,7 +98,7 @@ fun Listas(navController: NavController) {
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.height(64.dp)
             ) {
@@ -124,15 +145,38 @@ fun Listas(navController: NavController) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Listas",
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 52.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Text(
+                        text = "Aun no tienes ninguna lista de reproducción creada",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    ) {
+                        Text("Crear una")
+                    }
+                }
+            }
         }
     }
 }
