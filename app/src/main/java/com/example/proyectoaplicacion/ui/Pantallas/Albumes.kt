@@ -91,7 +91,7 @@ fun Albumes(navController: NavController) {
                             Spacer(
                                 modifier = Modifier
                                     .width(12.dp)
-                                    .clickable { /* Acción al hacer clic */ })
+                                    .clickable { navController.navigate("configuracion") })
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_settings_24),
                                 contentDescription = "Settings",

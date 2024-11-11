@@ -59,6 +59,7 @@ import com.example.proyectoaplicacion.ui.Pantallas.Activacion
 import com.example.proyectoaplicacion.ui.Pantallas.Albumes
 import com.example.proyectoaplicacion.ui.Pantallas.BibliotecaScreen
 import com.example.proyectoaplicacion.ui.Pantallas.Buscar
+import com.example.proyectoaplicacion.ui.Pantallas.Configuracion
 import com.example.proyectoaplicacion.ui.Pantallas.Emisoras
 import com.example.proyectoaplicacion.ui.Pantallas.Estadisticas
 import com.example.proyectoaplicacion.ui.Pantallas.Listas
@@ -162,6 +163,9 @@ fun SetupNavGraph(navController: NavHostController) {
         composable("subidas") {
             Subidas(navController)
         }
+        composable("configuracion") {
+            Configuracion(navController)
+        }
     }
 }
 
@@ -224,7 +228,7 @@ fun ScaffoldExample(navController: NavHostController) {
                                 modifier = Modifier
                                     .size(24.dp)
                                     .align(Alignment.CenterVertically)
-                                    .clickable { /* Acción al hacer clic */ }
+                                    .clickable { navController.navigate("configuracion") }
                             )
                         }
                     }

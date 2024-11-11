@@ -78,7 +78,7 @@ fun Buscar(navController: NavController) {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ),
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
@@ -106,7 +106,7 @@ fun Buscar(navController: NavController) {
                             Spacer(
                                 modifier = Modifier
                                     .width(12.dp)
-                                    .clickable { /* Acción al hacer clic */ })
+                                    .clickable { navController.navigate("configuracion") })
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_settings_24),
                                 contentDescription = "Settings",

@@ -82,20 +82,6 @@ fun Activacion(navController: NavController) {
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
                         )
-                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Spacer(
-                                modifier = Modifier
-                                    .width(12.dp)
-                                    .clickable { /* Acción al hacer clic */ })
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_settings_24),
-                                contentDescription = "Settings",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .align(Alignment.CenterVertically)
-                            )
-                        }
                     }
                 }
             )
